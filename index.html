@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bombay Carbon Exchange — Towards Net Zero</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+/* ════════════════════════════════════════════
+ROOT — The palette of a living forest
+════════════════════════════════════════════ */
+:root {
+/* Greens — deep to light */
+–soil:       #080f0a;
+–forest:     #0c1a10;
+–deep:       #0f2014;
+–canopy:     #142918;
+–grove:      #1a3520;
+–fern:       #22472a;
+–moss:       #2e6038;
+–leaf:       #3d7a4a;
+–sage:       #4e9460;
+–spring:     #63b07a;
+–pale:       #9dd4ae;
+–mist:       #c8ecd2;
+–dew:        #e8f7ed;
+–white:      #f4faf6;
+
+/* Accent — morning gold / sunrise */
+–gold:       #c8a84b;
+–gold-lt:    #e5c97a;
+–gold-dim:   #7a6528;
+
+/* Teal — water / hope */
+–teal:       #2a7a6e;
+–teal-lt:    #3da898;
+
+/* Text */
+–tx-dim:     rgba(156,212,174,0.55);
+–tx-mid:     rgba(180,225,192,0.75);
+–tx:         rgba(200,236,210,0.88);
+–tx-br:      #e2f4e8;
+
+/* Borders */
+–br:         rgba(46,96,56,0.28);
+–br-lt:      rgba(99,176,122,0.18);
+
+/* Shadows */
+–shadow:     rgba(8,15,10,0.7);
+}
+
+/* ════════════════════════════════════════════
+RESET & BASE
+════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+body {
+background: var(–forest);
+color: var(–tx);
+font-family: ‘Outfit’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+cursor: none;
+line-height: 1.6;
+}
+
+/* Subtle grain */
+body::after {
+content:’’;
+position:fixed; inset:0;
+background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘300’ height=‘300’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘300’ height=‘300’ filter=‘url(%23n)’ opacity=‘0.03’/%3E%3C/svg%3E”);
+pointer-events:none; z-index:0; opacity:0.5;
+}
+
+/* ════════════════════════════════════════════
+CUSTOM CURSOR
+════════════════════════════════════════════ */
+.cur      { position:fixed;width:9px;height:9px;background:var(–spring);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .12s ease; }
+.cur-ring { position:fixed;width:38px;height:38px;border:1.5px solid rgba(99,176,122,0.5);border-radius:50%;pointer-events:none;z-index:9998;transition:all .2s ease; }
+
+/* ════════════════════════════════════════════
+ANNOUNCEMENT BAR
+════════════════════════════════════════════ */
+.ann-bar {
+background: var(–grove);
+border-bottom: 1px solid var(–br);
+padding: 10px 40px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 16px;
+position: relative;
+z-index: 50;
+}
+.ann-dot { width:6px;height:6px;border-radius:50%;background:var(–spring);animation:dot-pulse 2s ease-in-out infinite;flex-shrink:0; }
+@keyframes dot-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(99,176,122,.5)} 50%{box-shadow:0 0 0 8px rgba(99,176,122,0)} }
+.ann-text { font-family:‘DM Mono’,monospace;font-size:11px;letter-spacing:.12em;color:var(–pale);text-align:center; }
+.ann-text strong { color:var(–gold-lt); }
+
+/* ════════════════════════════════════════════
+NAV
+════════════════════════════════════════════ */
+nav {
+position:sticky;top:0;z-index:100;
+background:rgba(12,26,16,0.96);backdrop-filter:blur(20px);
+border-bottom:1px solid var(–br);
+padding:0 52px;height:70px;
+display:flex;align-items:center;justify-content:space-between;
+}
+.nav-brand { display:flex;align-items:center;gap:14px; }
+.nav-emblem {
+width:38px;height:38px;
+display:flex;align-items:center;justify-content:center;
+}
+.nav-name { font-family:‘Cormorant Garamond’,serif;font-size:17px;font-weight:500;color:var(–white);letter-spacing:.06em;line-height:1.2; }
+.nav-name small { display:block;font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(–tx-dim);font-weight:300;margin-top:1px; }
+.nav-links { display:flex;gap:36px;list-style:none; }
+.nav-links a { font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(–tx-dim);text-decoration:none;transition:color .2s;font-weight:400; }
+.nav-links a:hover { color:var(–pale); }
+.nav-btn {
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+color:var(–forest);background:var(–spring);border:none;padding:10px 22px;cursor:none;
+border-radius:2px;font-weight:400;transition:all .25s;
+}
+.nav-btn:hover { background:var(–pale);transform:translateY(-1px); }
+
+/* ════════════════════════════════════════════
+HERO — “We are here to help you.”
+════════════════════════════════════════════ */
+.hero {
+min-height: 96vh;
+display: grid;
+grid-template-columns: 1.1fr 1fr;
+position: relative;
+overflow: hidden;
+}
+
+/* Ambient background gradient */
+.hero::before {
+content:’’;
+position:absolute;inset:0;
+background:
+radial-gradient(ellipse 55% 70% at 20% 50%, rgba(34,71,42,0.35) 0%, transparent 70%),
+radial-gradient(ellipse 40% 50% at 75% 30%, rgba(42,122,110,0.12) 0%, transparent 60%),
+radial-gradient(ellipse 60% 80% at 50% 100%, rgba(8,15,10,0.9) 0%, transparent 60%);
+pointer-events:none;
+}
+
+.hero-left {
+position:relative;z-index:5;
+padding: 0 52px 80px 52px;
+display:flex;flex-direction:column;justify-content:center;
+}
+
+/* Breadcrumb path — psychological “you are here” */
+.hero-path {
+display:flex;align-items:center;gap:8px;
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+color:var(–tx-dim);margin-bottom:36px;
+}
+.hero-path-dot { width:5px;height:5px;border-radius:50%;background:var(–spring); }
+.hero-path-sep { color:var(–tx-dim);opacity:.4; }
+
+/* Main headline — empathy first */
+.hero h1 {
+font-family:‘Cormorant Garamond’,serif;
+font-size: clamp(52px,6.5vw,96px);
+font-weight:300;line-height:1.0;letter-spacing:-.01em;
+color:var(–white);margin-bottom:32px;
+}
+.hero h1 .italic { font-style:italic;color:var(–spring); }
+.hero h1 .gold   { color:var(–gold); }
+.hero h1 .soft   { font-weight:300;color:var(–pale);opacity:.9; }
+
+/* Sub — problem acknowledgement */
+.hero-sub {
+font-size:16px;line-height:1.85;color:var(–tx-mid);
+max-width:500px;margin-bottom:52px;font-weight:300;
+}
+.hero-sub strong { color:var(–tx-br);font-weight:500; }
+
+/* CTA pair */
+.hero-ctas { display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px; }
+
+.cta-main {
+display:inline-flex;align-items:center;gap:12px;
+font-size:14px;font-weight:500;letter-spacing:.04em;
+color:var(–forest);background:var(–spring);
+padding:15px 32px;border-radius:3px;text-decoration:none;
+transition:all .3s;border:none;cursor:none;
+}
+.cta-main:hover { background:var(–pale);transform:translateY(-2px);box-shadow:0 16px 48px rgba(61,122,74,.3); }
+.cta-main svg { transition:transform .2s; }
+.cta-main:hover svg { transform:translateX(4px); }
+
+.cta-soft {
+display:inline-flex;align-items:center;gap:10px;
+font-size:13px;color:var(–tx-mid);
+padding:15px 24px;border-radius:3px;text-decoration:none;
+border:1px solid var(–br);transition:all .25s;cursor:none;
+font-weight:300;
+}
+.cta-soft:hover { border-color:var(–sage);color:var(–pale);background:rgba(34,71,42,.2); }
+
+/* Reassurance chips */
+.reassurance { display:flex;gap:20px;flex-wrap:wrap; }
+.chip {
+display:flex;align-items:center;gap:7px;
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+color:var(–tx-dim);
+}
+.chip-check { width:16px;height:16px;border-radius:50%;background:rgba(61,122,74,.25);border:1px solid var(–br);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.chip-check svg { width:8px;height:8px; }
+
+/* Hero right — visual */
+.hero-right {
+position:relative;z-index:4;
+display:flex;align-items:center;justify-content:center;
+padding:80px 40px;
+}
+
+/* Animated rings */
+.earth-stage { position:relative;width:440px;height:440px; }
+
+.ring {
+position:absolute;border-radius:50%;border:1px solid;
+top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.ring-1 { width:440px;height:440px;border-color:rgba(46,96,56,.3); animation:ringRotate 40s linear infinite; }
+.ring-2 { width:360px;height:360px;border-color:rgba(61,122,74,.2); animation:ringRotate 28s linear infinite reverse; }
+.ring-3 { width:280px;height:280px;border-color:rgba(99,176,122,.15); }
+
+@keyframes ringRotate { 0%{transform:translate(-50%,-50%) rotate(0deg)} 100%{transform:translate(-50%,-50%) rotate(360deg)} }
+
+/* Orbiting dot on ring-1 */
+.ring-1::after {
+content:’’;position:absolute;
+width:8px;height:8px;border-radius:50%;
+background:var(–gold);
+top:-4px;left:50%;transform:translateX(-50%);
+box-shadow:0 0 16px var(–gold);
+}
+.ring-2::before {
+content:’’;position:absolute;
+width:6px;height:6px;border-radius:50%;
+background:var(–spring);
+bottom:-3px;left:50%;transform:translateX(-50%);
+box-shadow:0 0 12px var(–spring);
+}
+
+/* Central earth */
+.earth {
+position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+width:220px;height:220px;border-radius:50%;
+background:radial-gradient(circle at 38% 36%, var(–fern) 0%, var(–deep) 55%, var(–soil) 100%);
+border:1.5px solid rgba(61,122,74,.5);
+box-shadow:
+0 0 60px rgba(46,96,56,.25),
+0 0 120px rgba(46,96,56,.1),
+inset 0 0 40px rgba(46,96,56,.15);
+animation:earthGlow 6s ease-in-out infinite;
+overflow:hidden;
+}
+@keyframes earthGlow {
+0%,100%{ box-shadow:0 0 60px rgba(46,96,56,.25),0 0 120px rgba(46,96,56,.1),inset 0 0 40px rgba(46,96,56,.15); }
+50%    { box-shadow:0 0 90px rgba(61,122,74,.35),0 0 180px rgba(61,122,74,.15),inset 0 0 60px rgba(61,122,74,.2); }
+}
+
+/* Floating data cards around earth */
+.float-card {
+position:absolute;
+background:rgba(15,32,20,0.92);border:1px solid var(–br);
+border-radius:6px;padding:10px 14px;backdrop-filter:blur(12px);
+white-space:nowrap;
+}
+.fc-label { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(–tx-dim);margin-bottom:4px; }
+.fc-val   { font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:600;color:var(–white); }
+.fc-val .green { color:var(–spring); }
+.fc-val .gold  { color:var(–gold); }
+.fc-1 { top:12%;right:-10px; animation:fcFloat 4s ease-in-out infinite; }
+.fc-2 { bottom:20%;left:-20px; animation:fcFloat 5s ease-in-out infinite 1.5s; }
+.fc-3 { top:55%;right:-30px; animation:fcFloat 4.5s ease-in-out infinite 0.8s; }
+@keyframes fcFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+/* ════════════════════════════════════════════
+PROBLEM EMPATHY — “We understand what you’re facing”
+════════════════════════════════════════════ */
+.empathy {
+background:var(–deep);
+border-top:1px solid var(–br);
+padding:100px 52px;
+position:relative;
+}
+.empathy-grid { display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:72px; }
+.empathy-prose { }
+.empathy-lead {
+font-family:‘Cormorant Garamond’,serif;
+font-size:clamp(24px,2.5vw,34px);
+font-weight:300;font-style:italic;
+color:var(–tx-br);line-height:1.5;
+margin-bottom:28px;
+border-left:3px solid var(–sage);
+padding-left:24px;
+}
+.empathy-body { font-size:15px;color:var(–tx-mid);line-height:1.9;font-weight:300; }
+.empathy-body strong { color:var(–tx-br);font-weight:500; }
+.empathy-body p + p { margin-top:18px; }
+
+/* Problem cards — acknowledging pain, not exploiting it */
+.problems { display:flex;flex-direction:column;gap:3px; }
+.prob-card {
+background:var(–canopy);border:1px solid var(–br);
+padding:24px 28px;
+display:flex;align-items:flex-start;gap:18px;
+transition:all .3s;cursor:none;
+}
+.prob-card:hover { background:var(–grove);border-color:var(–br-lt);transform:translateX(6px); }
+.prob-icon { font-size:22px;flex-shrink:0;margin-top:2px; }
+.prob-content {}
+.prob-title { font-size:14px;font-weight:600;color:var(–tx-br);margin-bottom:6px;letter-spacing:.02em; }
+.prob-desc { font-size:13px;color:var(–tx-dim);line-height:1.7; }
+.prob-resolve {
+margin-top:8px;
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+color:var(–spring);display:flex;align-items:center;gap:6px;
+}
+.prob-resolve::before { content:‘→’;color:var(–spring); }
+
+/* ════════════════════════════════════════════
+SOLUTION — “Here is how we make it easy”
+════════════════════════════════════════════ */
+.solution-section {
+background:var(–forest);
+border-top:1px solid var(–br);
+padding:100px 52px;
+}
+.sol-intro { max-width:640px;margin-bottom:80px; }
+.sol-intro p { font-size:16px;color:var(–tx-mid);line-height:1.85; }
+.sol-intro strong { color:var(–tx-br);font-weight:500; }
+
+/* Journey steps — progressive, not overwhelming */
+.journey {
+display:grid;grid-template-columns:repeat(5,1fr);
+position:relative;
+gap:0;
+}
+/* connecting line */
+.journey::before {
+content:’’;position:absolute;
+top:36px;left:36px;right:36px;height:1px;
+background:linear-gradient(90deg, var(–fern), var(–leaf), var(–sage), var(–leaf), var(–fern));
+z-index:0;
+}
+.jstep {
+padding:0 20px 36px;text-align:center;position:relative;z-index:1;
+}
+.jstep-num {
+width:72px;height:72px;border-radius:50%;
+background:var(–canopy);border:2px solid var(–fern);
+display:flex;align-items:center;justify-content:center;
+margin:0 auto 20px;
+font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:600;color:var(–white);
+transition:all .4s;position:relative;z-index:2;
+}
+.jstep:hover .jstep-num {
+background:var(–fern);border-color:var(–sage);
+box-shadow:0 0 32px rgba(61,122,74,.4);
+}
+.jstep-icon { position:absolute;top:-8px;right:-4px;font-size:16px; }
+.jstep-title { font-family:‘Cormorant Garamond’,serif;font-size:17px;font-weight:500;color:var(–tx-br);margin-bottom:10px; }
+.jstep-desc  { font-size:12px;color:var(–tx-dim);line-height:1.7; }
+
+/* ════════════════════════════════════════════
+MISSION BANNER — Full emotional weight
+════════════════════════════════════════════ */
+.mission-banner {
+position:relative;overflow:hidden;
+background:linear-gradient(145deg, var(–grove) 0%, var(–fern) 40%, var(–moss) 70%, var(–canopy) 100%);
+padding:120px 52px;
+border-top:1px solid var(–br);
+}
+
+/* Large background tree SVG */
+.mission-tree-bg {
+position:absolute;right:-60px;bottom:0;
+opacity:.07;pointer-events:none;
+}
+
+.mission-inner { max-width:780px; }
+.mission-kicker {
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+color:var(–sage);margin-bottom:24px;display:flex;align-items:center;gap:14px;
+}
+.mission-kicker::before { content:’’;display:block;width:32px;height:1px;background:var(–sage); }
+.mission-h {
+font-family:‘Cormorant Garamond’,serif;
+font-size:clamp(40px,5.5vw,76px);
+font-weight:300;line-height:1.08;letter-spacing:-.01em;
+color:var(–white);margin-bottom:36px;
+}
+.mission-h em { font-style:italic;color:var(–pale); }
+.mission-h .gold { color:var(–gold); }
+
+.mission-body-text {
+font-size:17px;line-height:1.9;color:rgba(200,236,210,.75);
+max-width:620px;margin-bottom:48px;font-weight:300;
+}
+.mission-body-text strong { color:var(–pale);font-weight:500; }
+
+/* SDGs */
+.sdgs { display:flex;flex-wrap:wrap;gap:10px;margin-bottom:52px; }
+.sdg {
+display:flex;align-items:center;gap:8px;
+background:rgba(8,15,10,.35);border:1px solid rgba(46,96,56,.4);
+border-radius:100px;padding:7px 16px;
+font-size:12px;color:var(–pale);letter-spacing:.03em;
+transition:all .25s;cursor:none;
+}
+.sdg:hover { background:rgba(34,71,42,.5);border-color:var(–sage);transform:translateY(-2px); }
+.sdg-n { font-family:‘DM Mono’,monospace;font-size:9px;color:var(–gold);letter-spacing:.05em; }
+
+/* Net Zero counter visual */
+.nz-target {
+display:inline-flex;align-items:center;gap:20px;
+background:rgba(8,15,10,.4);border:1px solid rgba(46,96,56,.5);
+border-radius:8px;padding:20px 32px;backdrop-filter:blur(10px);
+}
+.nz-year {
+font-family:‘Cormorant Garamond’,serif;
+font-size:56px;font-weight:600;color:var(–spring);
+line-height:1;letter-spacing:-.02em;
+}
+.nz-label { font-size:13px;color:var(–tx-mid);line-height:1.5;max-width:160px; }
+.nz-label strong { display:block;color:var(–tx-br);font-weight:500;font-size:15px;margin-bottom:4px; }
+
+/* ════════════════════════════════════════════
+AFFILIATIONS STRIP — Trust through association
+════════════════════════════════════════════ */
+.affiliations {
+background:var(–canopy);
+border-top:1px solid var(–br);border-bottom:1px solid var(–br);
+padding:52px;
+}
+.aff-label {
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+color:var(–tx-dim);text-align:center;margin-bottom:40px;
+}
+.aff-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:40px; }
+.aff-card {
+background:var(–deep);border:1px solid var(–br);
+border-radius:6px;padding:28px 24px;
+display:flex;flex-direction:column;align-items:flex-start;gap:0;
+transition:all .35s;cursor:none;
+position:relative;overflow:hidden;
+}
+.aff-card::before {
+content:’’;position:absolute;left:0;top:0;bottom:0;width:3px;
+background:linear-gradient(180deg, var(–spring), var(–teal-lt));
+transform:scaleY(0);transform-origin:bottom;transition:transform .35s;
+}
+.aff-card:hover::before { transform:scaleY(1); }
+.aff-card:hover { border-color:var(–br-lt);background:var(–grove);transform:translateY(-4px);box-shadow:0 20px 60px rgba(8,15,10,.5); }
+.aff-logo { margin-bottom:16px; }
+.aff-name { font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:600;color:var(–tx-br);margin-bottom:4px; }
+.aff-full { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(–tx-dim);margin-bottom:14px;line-height:1.5; }
+.aff-desc { font-size:12px;color:var(–tx-dim);line-height:1.7;flex:1; }
+.aff-tag {
+margin-top:16px;display:inline-flex;align-items:center;gap:6px;
+background:rgba(61,122,74,.15);border:1px solid var(–br);
+border-radius:100px;padding:4px 12px;
+font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(–spring);
+}
+
+/* Standards marquee */
+.std-marquee { overflow:hidden;white-space:nowrap; }
+.std-marquee-inner { display:inline-block;animation:stdScroll 25s linear infinite; }
+.std-badge-inline {
+display:inline-flex;align-items:center;gap:7px;
+background:rgba(22,41,24,.7);border:1px solid var(–br);
+border-radius:3px;padding:8px 16px;margin:0 6px;
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+color:var(–tx-mid);vertical-align:middle;
+}
+.std-badge-inline .dot { width:5px;height:5px;border-radius:50%;background:var(–spring);flex-shrink:0; }
+@keyframes stdScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ════════════════════════════════════════════
+SERVICES — No sales pressure, pure service
+════════════════════════════════════════════ */
+.services {
+background:var(–deep);
+border-top:1px solid var(–br);
+padding:100px 52px;
+}
+.services-intro { max-width:600px;margin-bottom:80px; }
+.services-intro p { font-size:15px;color:var(–tx-mid);line-height:1.85; }
+
+.services-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px; }
+.svc-card {
+background:var(–canopy);border:1px solid var(–br);
+border-radius:6px;padding:40px 32px;
+transition:all .35s;cursor:none;position:relative;overflow:hidden;
+}
+.svc-card::after {
+content:’’;position:absolute;bottom:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg, var(–leaf), var(–spring));
+transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.svc-card:hover::after { transform:scaleX(1); }
+.svc-card:hover { background:var(–grove);border-color:var(–br-lt);transform:translateY(-6px);box-shadow:0 24px 64px rgba(8,15,10,.5); }
+.svc-graphic { margin-bottom:28px; }
+.svc-num { font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.18em;color:var(–tx-dim);margin-bottom:10px; }
+.svc-title { font-family:‘Cormorant Garamond’,serif;font-size:24px;font-weight:600;color:var(–tx-br);margin-bottom:14px; }
+.svc-desc { font-size:13px;color:var(–tx-dim);line-height:1.8;margin-bottom:24px; }
+.svc-list { list-style:none;display:flex;flex-direction:column;gap:8px; }
+.svc-list li {
+font-size:12px;color:var(–tx-dim);
+display:flex;align-items:flex-start;gap:10px;line-height:1.5;
+}
+.svc-list li::before { content:‘✓’;color:var(–spring);flex-shrink:0;margin-top:1px; }
+.svc-timeframe {
+margin-top:24px;display:inline-flex;align-items:center;gap:7px;
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+color:var(–tx-dim);border:1px solid var(–br);border-radius:100px;padding:5px 12px;
+}
+.svc-timeframe .dot { width:5px;height:5px;border-radius:50%;background:var(–gold); }
+
+/* ════════════════════════════════════════════
+HOW WE HELP — Empathy-driven process
+════════════════════════════════════════════ */
+.how {
+background:var(–forest);
+border-top:1px solid var(–br);
+padding:100px 52px;
+}
+.how-grid { display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:72px; }
+.how-text { }
+.how-text h3 {
+font-family:‘Cormorant Garamond’,serif;font-size:36px;font-weight:300;
+font-style:italic;color:var(–tx-br);line-height:1.3;margin-bottom:24px;
+}
+.how-text p { font-size:14px;color:var(–tx-dim);line-height:1.9;margin-bottom:18px; }
+.how-text strong { color:var(–tx-br);font-weight:500; }
+
+/* Timeline */
+.how-timeline { display:flex;flex-direction:column;gap:0; }
+.tl-item {
+display:flex;gap:20px;padding:20px 0;
+border-bottom:1px solid rgba(46,96,56,.15);
+transition:all .3s;cursor:none;
+}
+.tl-item:last-child { border-bottom:none; }
+.tl-item:hover { padding-left:8px; }
+.tl-dot {
+width:32px;height:32px;border-radius:50%;flex-shrink:0;
+background:var(–canopy);border:2px solid var(–fern);
+display:flex;align-items:center;justify-content:center;
+font-size:14px;margin-top:2px;transition:all .3s;
+}
+.tl-item:hover .tl-dot { background:var(–fern);border-color:var(–sage); }
+.tl-content {}
+.tl-title { font-size:14px;font-weight:600;color:var(–tx-br);margin-bottom:5px;letter-spacing:.02em; }
+.tl-desc { font-size:12px;color:var(–tx-dim);line-height:1.65; }
+.tl-time { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(–gold);margin-top:6px; }
+
+/* ════════════════════════════════════════════
+VERIFIER DEEP DIVE
+════════════════════════════════════════════ */
+.verifiers {
+background:var(–canopy);
+border-top:1px solid var(–br);
+padding:100px 52px;
+}
+.ver-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(–br);border:1px solid var(–br);margin-top:72px; }
+.ver-card {
+background:var(–deep);padding:48px 36px;
+transition:background .3s;cursor:none;position:relative;
+}
+.ver-card:hover { background:var(–grove); }
+.ver-card:hover .ver-name { color:var(–spring); }
+.ver-symbol { margin-bottom:28px; }
+.ver-name { font-family:‘Cormorant Garamond’,serif;font-size:30px;font-weight:600;color:var(–tx-br);margin-bottom:6px;transition:color .3s; }
+.ver-full { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(–tx-dim);margin-bottom:20px;line-height:1.5; }
+.ver-desc { font-size:13px;color:var(–tx-dim);line-height:1.8;margin-bottom:24px; }
+.ver-why {
+background:rgba(8,15,10,.4);border:1px solid var(–br);
+border-radius:4px;padding:14px 16px;
+font-size:12px;color:var(–tx-mid);line-height:1.6;
+}
+.ver-why strong { color:var(–sage);font-weight:500;display:block;margin-bottom:4px;font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase; }
+
+/* ════════════════════════════════════════════
+STATS — Real world scale
+════════════════════════════════════════════ */
+.stats {
+background:var(–grove);
+border-top:1px solid var(–br);
+display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat {
+padding:48px 40px;border-right:1px solid var(–br);
+position:relative;overflow:hidden;transition:background .3s;
+}
+.stat:last-child { border-right:none; }
+.stat:hover { background:var(–fern); }
+.stat-i { font-size:26px;margin-bottom:14px; }
+.stat-l { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(–tx-dim);margin-bottom:10px; }
+.stat-n { font-family:‘Cormorant Garamond’,serif;font-size:52px;font-weight:600;color:var(–white);line-height:1; }
+.stat-u { font-size:26px;color:var(–spring); }
+.stat-c { font-size:11px;color:var(–sage);margin-top:6px;letter-spacing:.03em; }
+
+/* ════════════════════════════════════════════
+CONTACT — Warm, inviting, no pressure
+════════════════════════════════════════════ */
+.contact {
+background:var(–deep);border-top:1px solid var(–br);
+padding:100px 52px;
+display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+.contact-text {}
+.contact-text h2 {
+font-family:‘Cormorant Garamond’,serif;
+font-size:clamp(36px,4vw,60px);font-weight:300;line-height:1.1;
+color:var(–white);margin-bottom:24px;
+}
+.contact-text h2 em { font-style:italic;color:var(–spring); }
+.contact-text > p { font-size:15px;color:var(–tx-mid);line-height:1.85;margin-bottom:36px;max-width:440px; }
+
+/* Promise list */
+.promises { display:flex;flex-direction:column;gap:14px;margin-bottom:40px; }
+.promise { display:flex;align-items:center;gap:14px; }
+.promise-icon { width:36px;height:36px;border-radius:50%;background:rgba(34,71,42,.5);border:1px solid var(–br);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0; }
+.promise-text { font-size:13px;color:var(–tx-mid);line-height:1.5; }
+.promise-text strong { color:var(–tx-br);font-weight:500;display:block;margin-bottom:2px; }
+
+/* Form */
+.contact-form { }
+.form-group { margin-bottom:18px; }
+.form-label { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(–tx-dim);display:block;margin-bottom:8px; }
+.form-input, .form-select, .form-textarea {
+width:100%;background:rgba(12,26,16,.7);border:1px solid var(–br);
+color:var(–tx-br);font-family:‘Outfit’,sans-serif;font-size:14px;font-weight:300;
+padding:13px 18px;outline:none;transition:border-color .25s;
+cursor:none;border-radius:3px;
+}
+.form-input::placeholder { color:rgba(156,212,174,.3); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(–sage); }
+.form-select { -webkit-appearance:none;appearance:none;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘10’ height=‘6’ fill=‘none’%3E%3Cpath d=‘M1 1l4 4 4-4’ stroke=’%234e9460’ stroke-width=‘1.5’ stroke-linecap=‘round’ stroke-linejoin=‘round’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 16px center; }
+.form-textarea { min-height:100px;resize:vertical;line-height:1.6; }
+.form-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+.form-submit {
+width:100%;padding:16px;
+font-family:‘DM Mono’,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+color:var(–forest);background:var(–spring);border:none;cursor:none;
+border-radius:3px;font-weight:400;margin-top:8px;
+transition:all .3s;
+}
+.form-submit:hover { background:var(–pale);transform:translateY(-2px);box-shadow:0 14px 40px rgba(61,122,74,.35); }
+.form-note { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.06em;color:var(–tx-dim);line-height:1.7;margin-top:14px;text-align:center; }
+
+/* ════════════════════════════════════════════
+FOOTER
+════════════════════════════════════════════ */
+footer {
+background:var(–soil);border-top:1px solid var(–br);
+padding:64px 52px 32px;
+}
+.footer-main { display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:48px;margin-bottom:52px; }
+.footer-brand { }
+.fb-name { font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:500;color:var(–white);margin-bottom:6px;letter-spacing:.03em; }
+.fb-tag  { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(–tx-dim);margin-bottom:18px; }
+.fb-desc { font-size:12px;color:var(–tx-dim);line-height:1.8;max-width:260px;margin-bottom:24px; }
+.fb-certs { display:flex;flex-wrap:wrap;gap:6px; }
+.fc-badge { font-family:‘DM Mono’,monospace;font-size:7px;letter-spacing:.08em;text-transform:uppercase;color:var(–tx-dim);border:1px solid var(–br);border-radius:2px;padding:4px 8px; }
+.fc { }
+.fc-t { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(–tx-dim);margin-bottom:16px; }
+.fc ul { list-style:none;display:flex;flex-direction:column;gap:10px; }
+.fc ul a { font-size:12px;color:var(–tx-dim);text-decoration:none;transition:color .2s;line-height:1.4; }
+.fc ul a:hover { color:var(–pale); }
+.footer-bottom {
+border-top:1px solid var(–br);padding-top:24px;
+display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+}
+.footer-bottom p { font-family:‘DM Mono’,monospace;font-size:8px;letter-spacing:.07em;color:var(–tx-dim); }
+
+/* ════════════════════════════════════════════
+SCROLL ANIMATIONS
+════════════════════════════════════════════ */
+.reveal { opacity:0;transform:translateY(32px);transition:opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity:1;transform:translateY(0); }
+.reveal-d1 { transition-delay:.1s; }
+.reveal-d2 { transition-delay:.2s; }
+.reveal-d3 { transition-delay:.3s; }
+.reveal-d4 { transition-delay:.4s; }
+
+/* Section label */
+.s-label {
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+color:var(–sage);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+}
+.s-label::after { content:’’;flex:1;max-width:50px;height:1px;background:var(–br); }
+.s-title {
+font-family:‘Cormorant Garamond’,serif;font-size:clamp(34px,4vw,62px);
+font-weight:300;color:var(–white);line-height:1.08;margin-bottom:18px;letter-spacing:-.01em;
+}
+.s-title em { font-style:italic;color:var(–spring); }
+.s-title .gold { color:var(–gold); }
+
+/* ════════════════════════════════════════════
+RESPONSIVE
+════════════════════════════════════════════ */
+@media(max-width:960px){
+nav { padding:0 20px; }
+.nav-links { display:none; }
+.hero { grid-template-columns:1fr; }
+.hero-right { display:none; }
+.hero-left { padding:60px 24px 80px; }
+.empathy-grid, .how-grid, .contact { grid-template-columns:1fr;gap:40px; }
+.journey { grid-template-columns:1fr 1fr; }
+.journey::before { display:none; }
+.aff-grid { grid-template-columns:1fr 1fr; }
+.services-grid { grid-template-columns:1fr; }
+.ver-grid { grid-template-columns:1fr; }
+.stats { grid-template-columns:1fr 1fr; }
+.footer-main { grid-template-columns:1fr 1fr; }
+section, .affiliations, .contact, .services, .how, .verifiers, .empathy { padding:60px 24px; }
+.mission-banner { padding:72px 24px; }
+.form-row { grid-template-columns:1fr; }
+.ann-bar { display:none; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- CURSOR -->
+
+<div class="cur" id="c"></div>
+<div class="cur-ring" id="cr"></div>
+
+<!-- ANNOUNCEMENT BAR -->
+
+<div class="ann-bar">
+  <span class="ann-dot"></span>
+  <span class="ann-text">
+    <strong>Bombay Carbon Exchange</strong> — Helping Indian industry reach <strong>Net Zero</strong> through verified, measurable action &nbsp;·&nbsp; Aligned with Verra, Gold Standard, ISO 14064, BEE India & GHG Protocol
+  </span>
+</div>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-emblem">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+        <circle cx="19" cy="19" r="18" stroke="rgba(61,122,74,0.4)" stroke-width="1"/>
+        <circle cx="19" cy="19" r="13" fill="rgba(22,41,24,0.8)"/>
+        <!-- Stylised B + leaf -->
+        <path d="M14 13 L14 25 L19 25 C21.8 25 24 23.5 24 21.5 C24 20 23 19 21.5 18.5 C22.8 18 23.5 17 23.5 15.5 C23.5 13.8 21.8 13 19.5 13 Z" fill="#3d7a4a"/>
+        <path d="M14 18.5 L20 18.5" stroke="rgba(8,15,10,0.6)" stroke-width="1"/>
+        <!-- leaf accent -->
+        <path d="M26 11 C22 13 21 17 23 19 C25 17 26 13 26 11Z" fill="#63b07a" opacity="0.7"/>
+        <circle cx="19" cy="19" r="18" stroke="rgba(61,122,74,0.15)" stroke-width="0.5"/>
+      </svg>
+    </div>
+    <div class="nav-name">
+      Bombay Carbon Exchange
+      <small>Towards Net Zero</small>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#understand">We Understand</a></li>
+    <li><a href="#solution">How We Help</a></li>
+    <li><a href="#mission">Our Mission</a></li>
+    <li><a href="#partners">Partners</a></li>
+    <li><a href="#contact">Talk to Us</a></li>
+  </ul>
+  <button class="nav-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Help — It's Free</button>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+
+<section class="hero" style="padding:0;border:0;">
+  <div class="hero-left">
+    <div class="hero-path">
+      <span class="hero-path-dot"></span>
+      <span>India</span>
+      <span class="hero-path-sep">/</span>
+      <span>Manufacturing</span>
+      <span class="hero-path-sep">/</span>
+      <span>Carbon Intelligence</span>
+    </div>
+
+```
+<h1>
+  We make<br>
+  <span class="italic">carbon compliance</span><br>
+  <span class="soft">simple for you.</span>
+</h1>
+
+<p class="hero-sub">
+  Carbon regulations are complex. We know that. You are running a factory, managing teams, controlling costs — <strong>you shouldn't have to become a carbon expert too.</strong> That is exactly what Bombay Carbon Exchange is here for.
+</p>
+
+<div class="hero-ctas">
+  <a href="#contact" class="cta-main">
+    Tell Us Your Challenge
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <a href="#understand" class="cta-soft">
+    See How We Help →
+  </a>
+</div>
+
+<div class="reassurance">
+  <div class="chip">
+    <div class="chip-check">
+      <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#63b07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    No jargon. Ever.
+  </div>
+  <div class="chip">
+    <div class="chip-check">
+      <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#63b07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    Results in 7 days
+  </div>
+  <div class="chip">
+    <div class="chip-check">
+      <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#63b07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    Globally verified
+  </div>
+  <div class="chip">
+    <div class="chip-check">
+      <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="#63b07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    Free first conversation
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="hero-right">
+    <div class="earth-stage">
+      <!-- Rings -->
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+
+```
+  <!-- Earth SVG -->
+  <div class="earth">
+    <svg width="220" height="220" viewBox="0 0 220 220" fill="none" style="position:absolute;inset:0;">
+      <defs>
+        <clipPath id="ec"><circle cx="110" cy="110" r="108"/></clipPath>
+      </defs>
+      <g clip-path="url(#ec)">
+        <!-- Ocean base -->
+        <rect width="220" height="220" fill="#0f2014"/>
+        <!-- Landmasses — India/Asia -->
+        <ellipse cx="140" cy="100" rx="48" ry="64" fill="#1a3520" opacity="0.9"/>
+        <ellipse cx="148" cy="115" rx="35" ry="48" fill="#22472a" opacity="0.8"/>
+        <ellipse cx="142" cy="130" rx="22" ry="30" fill="#2e6038" opacity="0.7"/>
+        <!-- India peninsula -->
+        <ellipse cx="135" cy="145" rx="14" ry="22" fill="#1a3520" opacity="0.85"/>
+        <!-- Africa -->
+        <ellipse cx="98" cy="120" rx="28" ry="52" fill="#142918" opacity="0.9"/>
+        <ellipse cx="100" cy="118" rx="20" ry="40" fill="#1a3520" opacity="0.7"/>
+        <!-- Europe -->
+        <ellipse cx="95" cy="80" rx="22" ry="18" fill="#142918" opacity="0.85"/>
+        <!-- Americas -->
+        <ellipse cx="42" cy="110" rx="26" ry="60" fill="#0f2014" opacity="0.9"/>
+        <!-- Ocean lines -->
+        <path d="M10 105 Q55 90 100 108 Q145 126 190 100" stroke="#22472a" stroke-width="1" opacity="0.3" fill="none"/>
+        <path d="M10 130 Q60 118 110 132 Q160 148 200 130" stroke="#1a3520" stroke-width="0.8" opacity="0.25" fill="none"/>
+        <!-- Latitude lines -->
+        <ellipse cx="110" cy="110" rx="105" ry="35" stroke="#1a3520" stroke-width="0.6" fill="none" opacity="0.3"/>
+        <ellipse cx="110" cy="80" rx="88" ry="22" stroke="#142918" stroke-width="0.5" fill="none" opacity="0.2"/>
+      </g>
+      <!-- Atmospheric glow rim -->
+      <circle cx="110" cy="110" r="107" stroke="#3d7a4a" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <circle cx="110" cy="110" r="110" stroke="#63b07a" stroke-width="4" fill="none" opacity="0.07"/>
+    </svg>
+  </div>
+
+  <!-- Floating data cards -->
+  <div class="float-card fc-1">
+    <div class="fc-label">CO₂ Reduced</div>
+    <div class="fc-val"><span class="green">↓ 18%</span></div>
+  </div>
+  <div class="float-card fc-2">
+    <div class="fc-label">ESCerts Eligible</div>
+    <div class="fc-val"><span class="gold">✓ Active</span></div>
+  </div>
+  <div class="float-card fc-3">
+    <div class="fc-label">Net Zero Target</div>
+    <div class="fc-val"><span class="green">2050</span></div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════ EMPATHY — We Understand ══════════ -->
+
+<section class="empathy" id="understand">
+  <div class="s-label">We Understand Your Situation</div>
+  <h2 class="s-title">You didn't start your factory<br>to become a <em>carbon expert.</em></h2>
+
+  <div class="empathy-grid">
+    <div class="empathy-prose reveal">
+      <p class="empathy-lead">
+        "Carbon compliance feels overwhelming — and no one explains it in plain language."
+      </p>
+      <div class="empathy-body">
+        <p>We hear this from factory owners across Gujarat and Maharashtra every week. You are managing operations, keeping workers employed, meeting buyer deadlines — and now suddenly you are expected to understand Scope 1 emissions, PAT scheme targets, MRV frameworks, and EU carbon border taxes.</p>
+        <p>That is an unfair burden to carry alone. <strong>Carbon complexity should not be your problem to solve.</strong> It should be ours.</p>
+        <p>Bombay Carbon Exchange exists to take that complexity off your plate — completely. We measure, we calculate, we verify, we document. You get clear numbers, clear savings, and the confidence that you are ready for whatever regulation comes next.</p>
+      </div>
+    </div>
+    <div class="problems">
+      <div class="prob-card reveal reveal-d1">
+        <div class="prob-icon">📋</div>
+        <div class="prob-content">
+          <div class="prob-title">Carbon Regulations Feel Like a Maze</div>
+          <p class="prob-desc">PAT Scheme, CCTS 2023, EU CBAM, SEBI BRSR, GHG Protocol — the acronyms alone are exhausting. Most businesses don't know where they stand, let alone where to start.</p>
+          <div class="prob-resolve">We translate all of it into one clear action plan for your factory</div>
+        </div>
+      </div>
+      <div class="prob-card reveal reveal-d2">
+        <div class="prob-icon">💸</div>
+        <div class="prob-content">
+          <div class="prob-title">You're Losing Money You Can't See</div>
+          <p class="prob-desc">The average Indian SME wastes 15–20% of energy cost due to inefficiencies that are invisible without proper measurement. That money is recoverable — we show you exactly where it's going.</p>
+          <div class="prob-resolve">We find the leak and show you the ₹ figure in 7 days</div>
+        </div>
+      </div>
+      <div class="prob-card reveal reveal-d3">
+        <div class="prob-icon">🌍</div>
+        <div class="prob-content">
+          <div class="prob-title">Export Buyers Are Asking for Carbon Data</div>
+          <p class="prob-desc">Your European and American buyers are starting to require verified carbon footprint data. Without it, you risk losing contracts to competitors who are already prepared.</p>
+          <div class="prob-resolve">We make you CBAM and export-carbon ready before your next buyer meeting</div>
+        </div>
+      </div>
+      <div class="prob-card reveal reveal-d4">
+        <div class="prob-icon">⏳</div>
+        <div class="prob-content">
+          <div class="prob-title">"I'll Deal With It Later" Is Costly</div>
+          <p class="prob-desc">The companies that prepare now will lead their sectors in 3 years. The ones that wait will spend that time and money catching up — under pressure, with no advantage to gain.</p>
+          <div class="prob-resolve">We help you get ahead now, at a pace that works for your business</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SOLUTION — How We Help ══════════ -->
+
+<section class="solution-section" id="solution">
+  <div class="s-label">How We Make It Easy</div>
+  <h2 class="s-title">Five steps. We handle<br><em>almost all of them.</em></h2>
+  <div class="sol-intro">
+    <p>You give us access to your energy bills and production records. We handle everything else — the calculations, the standards, the verification, the reporting. <strong>Your job is to run your factory. Our job is to handle your carbon.</strong></p>
+  </div>
+
+  <div class="journey">
+    <div class="jstep reveal">
+      <div class="jstep-num">
+        <span class="jstep-icon">📞</span>
+        1
+      </div>
+      <div class="jstep-title">You Tell Us Your Situation</div>
+      <p class="jstep-desc">A free 30-minute conversation. No technical knowledge needed. Just tell us what you're facing and what you're worried about.</p>
+    </div>
+    <div class="jstep reveal reveal-d1">
+      <div class="jstep-num">
+        <span class="jstep-icon">📄</span>
+        2
+      </div>
+      <div class="jstep-title">We Collect the Data</div>
+      <p class="jstep-desc">We request your electricity bills, fuel records, and production numbers. That is all. We take it from there.</p>
+    </div>
+    <div class="jstep reveal reveal-d2">
+      <div class="jstep-num">
+        <span class="jstep-icon">🔬</span>
+        3
+      </div>
+      <div class="jstep-title">We Do the Analysis</div>
+      <p class="jstep-desc">Our team calculates your emissions, benchmarks your efficiency, and maps your compliance exposure — using GHG Protocol, ISO 14064, and BEE standards.</p>
+    </div>
+    <div class="jstep reveal reveal-d3">
+      <div class="jstep-num">
+        <span class="jstep-icon">📊</span>
+        4
+      </div>
+      <div class="jstep-title">You Receive a Clear Report</div>
+      <p class="jstep-desc">A plain-language report — no jargon. Your emissions, your efficiency gap, your savings potential, your compliance risk. All in numbers you can act on.</p>
+    </div>
+    <div class="jstep reveal reveal-d4">
+      <div class="jstep-num">
+        <span class="jstep-icon">🌱</span>
+        5
+      </div>
+      <div class="jstep-title">We Walk the Path With You</div>
+      <p class="jstep-desc">Monthly tracking, optimization support, verification coordination, and credit monetisation — as much or as little help as you need, for as long as you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MISSION ══════════ -->
+
+<div class="mission-banner" id="mission">
+  <!-- Large tree silhouette -->
+  <svg class="mission-tree-bg" width="500" height="600" viewBox="0 0 500 600" fill="none">
+    <polygon points="250,20 380,220 310,220 420,400 330,400 500,580 0,580 170,400 80,400 190,220 120,220" fill="white"/>
+    <rect x="220" y="580" width="60" height="20" fill="white"/>
+  </svg>
+
+  <div class="mission-inner">
+    <div class="mission-kicker">Our Singular Purpose</div>
+    <h2 class="mission-h">
+      A planet where industry and<br>
+      <em>nature coexist.</em><br>
+      That is what we are<br>
+      building toward.
+    </h2>
+    <p class="mission-body-text">
+      Bombay Carbon Exchange is not a compliance company. We are a <strong>mission-driven infrastructure</strong> for India's net-zero future. We believe that when measuring and reducing emissions becomes the most natural and economically sensible thing a business can do, the world changes — factory by factory, city by city, sector by sector.
+      <br><br>
+      Every audit we run, every tonne we verify, every credit we generate is one more step toward a world where <strong>economic growth and planetary health are the same goal</strong> — not opposing forces.
+    </p>
+
+```
+<div class="sdgs">
+  <div class="sdg"><span class="sdg-n">SDG 7</span> Affordable Clean Energy</div>
+  <div class="sdg"><span class="sdg-n">SDG 9</span> Industry & Innovation</div>
+  <div class="sdg"><span class="sdg-n">SDG 12</span> Responsible Production</div>
+  <div class="sdg"><span class="sdg-n">SDG 13</span> Climate Action</div>
+  <div class="sdg"><span class="sdg-n">SDG 15</span> Life on Land</div>
+  <div class="sdg"><span class="sdg-n">SDG 17</span> Partnerships for Goals</div>
+</div>
+
+<div class="nz-target">
+  <div class="nz-year">2050</div>
+  <div class="nz-label">
+    <strong>Net Zero Target</strong>
+    Our commitment and the commitment we help our clients work toward — one verified tonne at a time.
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════ AFFILIATIONS ══════════ -->
+
+<div class="affiliations" id="partners">
+  <div class="aff-label">Globally Recognised Frameworks, Verification Bodies & Standards We Operate Within</div>
+
+  <div class="aff-grid">
+    <div class="aff-card reveal">
+      <div class="aff-logo">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="20" fill="#142918" stroke="#2e6038" stroke-width="1.5"/>
+          <path d="M12 28 C12 20 16 14 22 14 C28 14 32 20 32 28 L32 32 L12 32 Z" fill="#2e6038"/>
+          <path d="M15 32 C15 24 18 18 22 16 C26 18 29 24 29 32" fill="#3d7a4a" opacity="0.7"/>
+          <path d="M18 26 L21 29 L28 22" stroke="#63b07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="aff-name">Verra / VCS</div>
+      <div class="aff-full">Verified Carbon Standard — Global Registry</div>
+      <p class="aff-desc">The world's most widely used voluntary carbon standard. Over 1 billion tonnes of credits issued. When your project is verified under VCS, it is accepted by every major corporate ESG buyer on earth.</p>
+      <div class="aff-tag">Framework Aligned ✓</div>
+    </div>
+    <div class="aff-card reveal reveal-d1">
+      <div class="aff-logo">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="20" fill="#142918" stroke="#7a6528" stroke-width="1.5"/>
+          <polygon points="22,8 25,17 35,17 27,23 30,33 22,27 14,33 17,23 9,17 19,17" fill="#c8a84b" opacity="0.85"/>
+          <polygon points="22,12 24,19 31,19 26,23 28,30 22,26 16,30 18,23 13,19 20,19" fill="#142918"/>
+          <polygon points="22,14 23.5,20 29,20 25,23 27,29 22,25.5 17,29 19,23 15,20 20.5,20" fill="#c8a84b" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="aff-name">Gold Standard</div>
+      <div class="aff-full">Impact Certified — Co-founded by WWF</div>
+      <p class="aff-desc">The premium carbon and climate impact standard, co-founded by WWF. Credits certified here command the highest market prices and are recognised in UNFCCC Article 6 international mechanisms.</p>
+      <div class="aff-tag">Premium Standard ✓</div>
+    </div>
+    <div class="aff-card reveal reveal-d2">
+      <div class="aff-logo">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="20" fill="#142918" stroke="#2e6038" stroke-width="1.5"/>
+          <rect x="10" y="15" width="24" height="14" rx="2" fill="#1a3520" stroke="#2e6038" stroke-width="1"/>
+          <path d="M15 22 L19 26 L29 16" stroke="#3d7a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 30 L29 30" stroke="#1a3520" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="aff-name">BEE India</div>
+      <div class="aff-full">Bureau of Energy Efficiency — Ministry of Power</div>
+      <p class="aff-desc">India's national energy authority. Our framework is fully aligned with BEE's PAT scheme, energy auditing standards, and empanelled verification protocols — mandatory for all Indian industrial compliance.</p>
+      <div class="aff-tag">Scheme Aligned ✓</div>
+    </div>
+    <div class="aff-card reveal reveal-d3">
+      <div class="aff-logo">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="20" fill="#142918" stroke="#2e6038" stroke-width="1.5"/>
+          <circle cx="22" cy="22" r="10" stroke="#2e6038" stroke-width="1.5" fill="none"/>
+          <path d="M22 12 L22 32 M12 22 L32 22" stroke="#2e6038" stroke-width="1" opacity="0.5"/>
+          <path d="M14 14 Q22 10 30 14 Q34 22 30 30 Q22 34 14 30 Q10 22 14 14" stroke="#3d7a4a" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="22" cy="22" r="4" fill="#3d7a4a"/>
+          <circle cx="22" cy="22" r="2" fill="#63b07a"/>
+        </svg>
+      </div>
+      <div class="aff-name">GHG Protocol</div>
+      <div class="aff-full">Greenhouse Gas Protocol — WRI & WBCSD</div>
+      <p class="aff-desc">The global standard for corporate greenhouse gas accounting. Developed by WRI and WBCSD, used by 90%+ of Fortune 500 companies. Our Scope 1, 2 & 3 calculations follow GHG Protocol methodology exactly.</p>
+      <div class="aff-tag">Methodology Compliant ✓</div>
+    </div>
+  </div>
+
+  <!-- Standards marquee -->
+
+  <div class="std-marquee">
+    <div class="std-marquee-inner">
+      <span class="std-badge-inline"><span class="dot"></span>ISO 14064 — GHG Quantification</span>
+      <span class="std-badge-inline"><span class="dot"></span>ISO 50001 — Energy Management</span>
+      <span class="std-badge-inline"><span class="dot"></span>ISO 14001 — Environmental Mgmt</span>
+      <span class="std-badge-inline"><span class="dot"></span>UNFCCC Article 6</span>
+      <span class="std-badge-inline"><span class="dot"></span>EU CBAM — Carbon Border Adjustment</span>
+      <span class="std-badge-inline"><span class="dot"></span>SEBI BRSR Reporting</span>
+      <span class="std-badge-inline"><span class="dot"></span>India CCTS 2023</span>
+      <span class="std-badge-inline"><span class="dot"></span>PAT Scheme — BEE India</span>
+      <span class="std-badge-inline"><span class="dot"></span>SBTi — Science Based Targets</span>
+      <span class="std-badge-inline"><span class="dot"></span>CDP Aligned</span>
+      <span class="std-badge-inline"><span class="dot"></span>TCFD Framework</span>
+      <span class="std-badge-inline"><span class="dot"></span>Verra VCS</span>
+      <!-- repeat for seamless -->
+      <span class="std-badge-inline"><span class="dot"></span>ISO 14064 — GHG Quantification</span>
+      <span class="std-badge-inline"><span class="dot"></span>ISO 50001 — Energy Management</span>
+      <span class="std-badge-inline"><span class="dot"></span>ISO 14001 — Environmental Mgmt</span>
+      <span class="std-badge-inline"><span class="dot"></span>UNFCCC Article 6</span>
+      <span class="std-badge-inline"><span class="dot"></span>EU CBAM — Carbon Border Adjustment</span>
+      <span class="std-badge-inline"><span class="dot"></span>SEBI BRSR Reporting</span>
+      <span class="std-badge-inline"><span class="dot"></span>India CCTS 2023</span>
+      <span class="std-badge-inline"><span class="dot"></span>PAT Scheme — BEE India</span>
+      <span class="std-badge-inline"><span class="dot"></span>SBTi — Science Based Targets</span>
+      <span class="std-badge-inline"><span class="dot"></span>CDP Aligned</span>
+      <span class="std-badge-inline"><span class="dot"></span>TCFD Framework</span>
+      <span class="std-badge-inline"><span class="dot"></span>Verra VCS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HOW WE HELP — Deep process ══════════ -->
+
+<section class="how">
+  <div class="s-label">Our Process — In Depth</div>
+  <h2 class="s-title">Rigorous for the world.<br><em>Effortless for you.</em></h2>
+
+  <div class="how-grid">
+    <div class="how-text reveal">
+      <h3>"I gave them my electricity bills. They gave me back a clear picture of everything — and told me I was sitting on ₹6 lakh of recoverable savings."</h3>
+      <p>That is what our clients say. Not because we are salespeople. Because <strong>our job is to remove complexity</strong>, not add to it. Every calculation we run is aligned with global standards — so your data is accepted by regulators, banks, and international buyers without question.</p>
+      <p>We act as your dedicated carbon department — without the cost of hiring one. Our team handles the methodology, the verification coordination, the report generation, and the compliance monitoring. You stay focused on production.</p>
+    </div>
+    <div class="how-timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot">📞</div>
+        <div class="tl-content">
+          <div class="tl-title">Free Discovery Call</div>
+          <div class="tl-desc">We listen first. Understand your industry, your buyers, your regulatory exposure. Zero commitment. We tell you exactly what you need and what you don't.</div>
+          <div class="tl-time">Day 0 — No charge</div>
+        </div>
+      </div>
+      <div class="tl-item reveal reveal-d1">
+        <div class="tl-dot">📁</div>
+        <div class="tl-content">
+          <div class="tl-title">Data Collection</div>
+          <div class="tl-desc">You share electricity bills, diesel/gas records, and monthly production numbers. A simple shared folder. 30 minutes of your team's time — maximum.</div>
+          <div class="tl-time">Day 1–2</div>
+        </div>
+      </div>
+      <div class="tl-item reveal reveal-d2">
+        <div class="tl-dot">🧮</div>
+        <div class="tl-content">
+          <div class="tl-title">MRV Analysis (We Do This)</div>
+          <div class="tl-desc">We calculate Scope 1 & 2 emissions, specific energy consumption, efficiency benchmarks, and compliance exposure using GHG Protocol and ISO 14064 methodology.</div>
+          <div class="tl-time">Day 3–6 — We handle everything</div>
+        </div>
+      </div>
+      <div class="tl-item reveal reveal-d3">
+        <div class="tl-dot">📊</div>
+        <div class="tl-content">
+          <div class="tl-title">Plain-Language Report Delivered</div>
+          <div class="tl-desc">A 12-page PDF in plain English (and Gujarati on request). Your numbers, your savings, your risk, your opportunity. We walk you through it together.</div>
+          <div class="tl-time">Day 7 — Delivered with a walkthrough call</div>
+        </div>
+      </div>
+      <div class="tl-item reveal reveal-d4">
+        <div class="tl-dot">🌱</div>
+        <div class="tl-content">
+          <div class="tl-title">Ongoing Support (Your Choice)</div>
+          <div class="tl-desc">Monthly tracking, verification coordination through Verra and BEE-empanelled bodies, ESCert optimisation, and carbon credit monetisation — all available as you need them.</div>
+          <div class="tl-time">Ongoing — On your terms</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ VERIFICATION PARTNERS ══════════ -->
+
+<section class="verifiers">
+  <div class="s-label">Verification Framework</div>
+  <h2 class="s-title">Your data verified by<br>the <em>world's most trusted</em> bodies.</h2>
+
+  <div class="ver-grid">
+    <div class="ver-card reveal">
+      <div class="ver-symbol">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="26" fill="rgba(20,41,24,0.8)" stroke="rgba(46,96,56,0.5)" stroke-width="1.5"/>
+          <path d="M16 36 C16 26 21 18 28 18 C35 18 40 26 40 36 L40 40 L16 40 Z" fill="#22472a"/>
+          <path d="M20 40 C20 30 23 22 28 20 C33 22 36 30 36 40" fill="#2e6038" opacity="0.7"/>
+          <circle cx="28" cy="19" r="4" fill="#142918" stroke="#2e6038" stroke-width="1"/>
+          <path d="M22 32 L26 36 L35 27" stroke="#63b07a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="ver-name">Verra</div>
+      <div class="ver-full">Verified Carbon Standard · Washington D.C. · Est. 2005</div>
+      <p class="ver-desc">The world's leading voluntary carbon crediting programme. Over 1,700 certified projects across 80 countries. Verra-verified credits are the global benchmark for corporate carbon offsetting and net-zero claims.</p>
+      <div class="ver-why">
+        <strong>Why this matters for you</strong>
+        Your buyers — in Europe, the US, and the Middle East — recognise Verra VCS credits. When your emissions reductions are Verra-verified, they are internationally tradeable and carry the highest credibility.
+      </div>
+    </div>
+    <div class="ver-card reveal reveal-d1">
+      <div class="ver-symbol">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="26" fill="rgba(20,41,24,0.8)" stroke="rgba(100,80,30,0.4)" stroke-width="1.5"/>
+          <polygon points="28,10 32,22 45,22 35,30 39,43 28,35 17,43 21,30 11,22 24,22" fill="#c8a84b" opacity="0.9"/>
+          <polygon points="28,14 31,24 42,24 33,31 36,41 28,35 20,41 23,31 14,24 25,24" fill="rgba(20,41,24,0.9)"/>
+          <polygon points="28,16 30,25 39,25 32,30 35,39 28,34 21,39 24,30 17,25 26,25" fill="#c8a84b" opacity="0.45"/>
+        </svg>
+      </div>
+      <div class="ver-name">Gold Standard</div>
+      <div class="ver-full">Impact Certified · Geneva · WWF Co-Founded · Est. 2003</div>
+      <p class="ver-desc">Co-founded by WWF and development organisations, Gold Standard is the highest-integrity voluntary carbon and climate impact standard. It verifies not only carbon reductions but sustainable development co-benefits.</p>
+      <div class="ver-why">
+        <strong>Why this matters for you</strong>
+        Gold Standard projects command a significant price premium in the voluntary carbon market and are recognised under UNFCCC Article 6. For companies with ambitious ESG commitments, this is the gold benchmark.
+      </div>
+    </div>
+    <div class="ver-card reveal reveal-d2">
+      <div class="ver-symbol">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="26" fill="rgba(20,41,24,0.8)" stroke="rgba(46,96,56,0.5)" stroke-width="1.5"/>
+          <rect x="14" y="20" width="28" height="18" rx="2" fill="#1a3520" stroke="#2e6038" stroke-width="1"/>
+          <path d="M20 30 L25 35 L37 23" stroke="#3d7a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20 38 L36 38" stroke="#142918" stroke-width="1.2" stroke-linecap="round"/>
+          <text x="28" y="18" text-anchor="middle" font-family="monospace" font-size="7" fill="#63b07a" letter-spacing="1">BEE</text>
+        </svg>
+      </div>
+      <div class="ver-name">BEE India</div>
+      <div class="ver-full">Bureau of Energy Efficiency · Ministry of Power · New Delhi</div>
+      <p class="ver-desc">India's national energy efficiency authority. Administers the PAT (Perform, Achieve & Trade) scheme, sets industrial energy efficiency targets, manages ESCerts issuance, and empanels third-party verification agencies.</p>
+      <div class="ver-why">
+        <strong>Why this matters for you</strong>
+        BEE empanelment is mandatory for any PAT scheme participation. Our framework is designed to produce BEE-acceptable MRV data, ensuring your ESCert eligibility is documented correctly from day one.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STATS ══════════ -->
+
+<div class="stats">
+  <div class="stat reveal">
+    <div class="stat-i">🌿</div>
+    <div class="stat-l">India Carbon Market 2030</div>
+    <div class="stat-n">$35<span class="stat-u">B</span></div>
+    <div class="stat-c">↑ 15× projected growth — supply ready now</div>
+  </div>
+  <div class="stat reveal reveal-d1">
+    <div class="stat-i">⚡</div>
+    <div class="stat-l">Avg. SME Energy Waste</div>
+    <div class="stat-n">18<span class="stat-u">%</span></div>
+    <div class="stat-c">← Invisible without measurement</div>
+  </div>
+  <div class="stat reveal reveal-d2">
+    <div class="stat-i">🏭</div>
+    <div class="stat-l">Gujarat Exporters Exposed to CBAM</div>
+    <div class="stat-n">9K<span class="stat-u">+</span></div>
+    <div class="stat-c">← Less than 3% have MRV systems</div>
+  </div>
+  <div class="stat reveal reveal-d3">
+    <div class="stat-i">📅</div>
+    <div class="stat-l">From Data to Report</div>
+    <div class="stat-n">7<span class="stat-u"> days</span></div>
+    <div class="stat-c">← We move fast. Complexity stays with us.</div>
+  </div>
+</div>
+
+<!-- ══════════ SERVICES ══════════ -->
+
+<section class="services" id="services">
+  <div class="s-label">What We Do For You</div>
+  <h2 class="s-title">Take what you need.<br><em>Leave the rest to us.</em></h2>
+  <div class="services-intro">
+    <p>Every business is at a different stage. Some need a one-time baseline. Others need a full carbon partner. <strong>There is no pressure to take more than you need.</strong> We meet you exactly where you are.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="svc-card reveal">
+      <div class="svc-graphic">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="6" fill="rgba(22,41,24,0.6)"/>
+          <path d="M10 40 L18 28 L24 32 L32 18 L42 22" stroke="#3d7a4a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="42" cy="22" r="3.5" fill="#c8a84b"/>
+          <path d="M10 44 L42 44" stroke="#142918" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M10 18 L10 44" stroke="#142918" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="svc-num">Service 01</div>
+      <div class="svc-title">Carbon & Energy Audit</div>
+      <p class="svc-desc">Your complete emissions picture. Scope 1 & 2 calculated to GHG Protocol standards. Energy efficiency benchmarked. Cost savings identified. Delivered in plain language.</p>
+      <ul class="svc-list">
+        <li>Scope 1 & 2 emissions calculation</li>
+        <li>Specific Energy Consumption (SEC) analysis</li>
+        <li>PAT compliance risk assessment</li>
+        <li>Cost-saving opportunity map in ₹</li>
+        <li>12-page plain-language report</li>
+      </ul>
+      <div class="svc-timeframe"><span class="dot"></span> 7–10 days · ₹50K–₹2L</div>
+    </div>
+    <div class="svc-card reveal reveal-d1">
+      <div class="svc-graphic">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="6" fill="rgba(22,41,24,0.6)"/>
+          <circle cx="26" cy="26" r="14" stroke="#2e6038" stroke-width="1.5" fill="none"/>
+          <circle cx="26" cy="26" r="9" stroke="#3d7a4a" stroke-width="1" fill="rgba(30,82,48,0.4)"/>
+          <path d="M26 12 L26 40 M12 26 L40 26" stroke="#2e6038" stroke-width="0.8" opacity="0.4"/>
+          <circle cx="26" cy="26" r="3.5" fill="#3d7a4a"/>
+          <circle cx="26" cy="26" r="1.5" fill="#63b07a"/>
+          <!-- Pulse rings -->
+          <circle cx="26" cy="26" r="20" stroke="#3d7a4a" stroke-width="0.5" fill="none" opacity="0.3" stroke-dasharray="3 4"/>
+        </svg>
+      </div>
+      <div class="svc-num">Service 02</div>
+      <div class="svc-title">Monthly MRV & Compliance Tracking</div>
+      <p class="svc-desc">Ongoing monitoring so you are always compliant, always optimising, and always ready — for buyers, for auditors, for regulators. We handle the data every month.</p>
+      <ul class="svc-list">
+        <li>Monthly emissions & efficiency tracking</li>
+        <li>Verification-ready documentation</li>
+        <li>SEBI BRSR & CCTS compliance support</li>
+        <li>EU CBAM carbon footprint records</li>
+        <li>Quarterly improvement report</li>
+      </ul>
+      <div class="svc-timeframe"><span class="dot"></span> Ongoing · ₹25K–₹1L/month</div>
+    </div>
+    <div class="svc-card reveal reveal-d2">
+      <div class="svc-graphic">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="6" fill="rgba(22,41,24,0.6)"/>
+          <polygon points="26,10 30,22 43,22 33,30 37,43 26,35 15,43 19,30 9,22 22,22" fill="#c8a84b" opacity="0.75"/>
+          <polygon points="26,14 29,24 40,24 31,31 34,41 26,35 18,41 21,31 12,24 23,24" fill="rgba(20,41,24,0.9)"/>
+          <polygon points="26,16 28,25 37,25 30,30 33,39 26,34 19,39 22,30 15,25 24,25" fill="#c8a84b" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="svc-num">Service 03</div>
+      <div class="svc-title">Carbon Credit Monetisation</div>
+      <p class="svc-desc">Your efficiency improvements have value. We convert verified reductions into tradeable carbon credits — ESCerts under PAT, or voluntary credits under Verra VCS and Gold Standard.</p>
+      <ul class="svc-list">
+        <li>ESCert eligibility assessment & optimisation</li>
+        <li>Verra / Gold Standard project registration</li>
+        <li>Third-party verification coordination</li>
+        <li>Registry issuance & marketplace access</li>
+        <li>Revenue share model available</li>
+      </ul>
+      <div class="svc-timeframe"><span class="dot"></span> 6–18 months · 10–25% revenue share</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT — Warm, safe, no pressure ══════════ -->
+
+<section class="contact" id="contact">
+  <div class="contact-text">
+    <h2>Tell us what<br>you're <em>facing.</em></h2>
+    <p>No sales call. No pressure. Just a genuine conversation about your situation. We will tell you what you need — and equally importantly, what you don't. If we are not the right fit, we will say so and point you in the right direction.</p>
+
+```
+<div class="promises">
+  <div class="promise">
+    <div class="promise-icon">🤝</div>
+    <div class="promise-text">
+      <strong>Free first consultation</strong>
+      30 minutes, no obligation. We listen and give you honest clarity.
+    </div>
+  </div>
+  <div class="promise">
+    <div class="promise-icon">🔒</div>
+    <div class="promise-text">
+      <strong>Complete confidentiality</strong>
+      Your energy data and business information stays private. Always.
+    </div>
+  </div>
+  <div class="promise">
+    <div class="promise-icon">📋</div>
+    <div class="promise-text">
+      <strong>Plain language. Always.</strong>
+      We explain everything in terms that are clear, useful, and actionable.
+    </div>
+  </div>
+  <div class="promise">
+    <div class="promise-icon">🌿</div>
+    <div class="promise-text">
+      <strong>We are on the same side</strong>
+      Our goal is a sustainable future for Indian industry. Not a sale.
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="contact-form reveal">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input class="form-input" type="text" placeholder="Rajesh Kumar">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company Name</label>
+        <input class="form-input" type="text" placeholder="Rajesh Textiles Pvt Ltd">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">WhatsApp / Phone</label>
+        <input class="form-input" type="text" placeholder="+91 98XXX XXXXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Industry Sector</label>
+        <select class="form-select">
+          <option value="">Select your sector</option>
+          <option>Textile & Dyeing</option>
+          <option>Chemical & Pharma</option>
+          <option>Ceramics (Morbi)</option>
+          <option>Steel & Metals</option>
+          <option>Food Processing</option>
+          <option>Other Manufacturing</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">What's your biggest concern right now?</label>
+      <textarea class="form-textarea" placeholder="E.g. — My European buyer is asking for carbon data and I don't know where to start. OR — I want to understand my energy costs better. OR — I've heard about carbon credits but have no idea if they apply to me..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Approximate Monthly Energy Bill</label>
+      <select class="form-select">
+        <option value="">Select a range</option>
+        <option>Under ₹5 lakh / month</option>
+        <option>₹5L – ₹25L / month</option>
+        <option>₹25L – ₹1 crore / month</option>
+        <option>Over ₹1 crore / month</option>
+      </select>
+    </div>
+    <button class="form-submit">Start the Conversation →</button>
+    <p class="form-note">🔒 Your information is confidential and will only be used to prepare for your consultation. We operate under strict data privacy. Aligned with GHG Protocol · ISO 14064 · Verra VCS · BEE India · Gold Standard.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="fb-name">Bombay Carbon Exchange</div>
+      <div class="fb-tag">Carbon Intelligence · Net Zero Infrastructure · Est. India</div>
+      <p class="fb-desc">We exist to make the path to net zero clear, measurable, and economically meaningful for Indian manufacturing — one factory at a time, toward a planet worth inheriting.</p>
+      <div class="fb-certs">
+        <span class="fc-badge">Verra VCS</span>
+        <span class="fc-badge">Gold Standard</span>
+        <span class="fc-badge">ISO 14064</span>
+        <span class="fc-badge">GHG Protocol</span>
+        <span class="fc-badge">BEE India</span>
+        <span class="fc-badge">UNFCCC A6</span>
+      </div>
+    </div>
+    <div class="fc">
+      <div class="fc-t">Services</div>
+      <ul>
+        <li><a href="#">Carbon & Energy Audit</a></li>
+        <li><a href="#">MRV Monthly Tracking</a></li>
+        <li><a href="#">PAT Compliance</a></li>
+        <li><a href="#">Carbon Credit Monetisation</a></li>
+        <li><a href="#">CBAM Export Readiness</a></li>
+        <li><a href="#">Enterprise Carbon OS</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <div class="fc-t">Sectors</div>
+      <ul>
+        <li><a href="#">Textile & Dyeing</a></li>
+        <li><a href="#">Chemical & Pharma</a></li>
+        <li><a href="#">Ceramics (Morbi)</a></li>
+        <li><a href="#">Steel & Metals</a></li>
+        <li><a href="#">Export-driven SMEs</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <div class="fc-t">Organisation</div>
+      <ul>
+        <li><a href="#">Our Mission</a></li>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Insights & Articles</a></li>
+        <li><a href="#">Verification Partners</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Bombay Carbon Exchange. India. Towards Net Zero — one verified tonne at a time.</p>
+    <div class="fb-certs">
+      <span class="fc-badge">EU CBAM</span>
+      <span class="fc-badge">SEBI BRSR</span>
+      <span class="fc-badge">CCTS 2023</span>
+      <span class="fc-badge">PAT Scheme</span>
+      <span class="fc-badge">SBTi Aligned</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Cursor ── */
+const C = document.getElementById('c'), CR = document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; C.style.left=mx-4.5+'px'; C.style.top=my-4.5+'px'; });
+(function raf(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; CR.style.left=rx-19+'px'; CR.style.top=ry-19+'px'; requestAnimationFrame(raf); })();
+document.querySelectorAll('a,button,input,select,textarea,.prob-card,.aff-card,.svc-card,.ver-card,.tl-item,.jstep,.sdg').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ C.style.transform='scale(2)'; CR.style.transform='scale(1.6)'; CR.style.borderColor='var(--spring)'; });
+  el.addEventListener('mouseleave',()=>{ C.style.transform='scale(1)'; CR.style.transform='scale(1)'; CR.style.borderColor='rgba(99,176,122,0.5)'; });
+});
+
+/* ── Scroll reveal ── */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{ if(e.isIntersecting) setTimeout(()=>e.target.classList.add('in'), i*75); });
+},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ── Leaf particles in hero ── */
+const hero = document.querySelector('.hero');
+const leaves = ['🍃','🌿','☘️'];
+for(let i=0;i<14;i++){
+  const p=document.createElement('div');
+  const sz=8+Math.random()*12;
+  p.textContent=leaves[Math.floor(Math.random()*leaves.length)];
+  p.style.cssText=`
+    position:absolute;pointer-events:none;z-index:3;opacity:0;
+    left:${Math.random()*100}%;
+    font-size:${sz}px;
+    animation:leafFall ${10+Math.random()*12}s linear ${Math.random()*15}s infinite;
+  `;
+  hero.appendChild(p);
+}
+/* inject leaf animation */
+const style=document.createElement('style');
+style.textContent=`
+@keyframes leafFall{
+  0%{opacity:0;transform:translateY(-20px) rotate(0deg) scale(.8);}
+  8%{opacity:.5;}
+  90%{opacity:.25;}
+  100%{opacity:0;transform:translateY(95vh) rotate(540deg) scale(.5);}
+}`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
